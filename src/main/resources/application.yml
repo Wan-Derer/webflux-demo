@@ -1,0 +1,23 @@
+
+
+logging:
+  level:
+    web: DEBUG
+
+
+#debug: true
+#trace: true
+#
+#
+
+
+# https://qna.habr.com/q/1282030
+
+spring:
+  cloud:
+    gateway:
+      httpserver:
+        wiretap: true
+      httpclient:
+        wiretap: true
+
