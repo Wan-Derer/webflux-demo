@@ -1,8 +1,8 @@
 
 
-logging:
-  level:
-    web: DEBUG
+#logging:
+#  level:
+#    web: DEBUG
 
 
 #debug: true
@@ -14,10 +14,29 @@ logging:
 # https://qna.habr.com/q/1282030
 
 spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/webflux_demo
+    username: postgres
+    password: postgres
+  liquibase:
+    change-log: db/changelog/db.changelog-master.yml
+    url: jdbc:postgresql://localhost:5432/webflux_demo
+    user: postgres
+    password: postgres
   cloud:
     gateway:
       httpserver:
         wiretap: true
       httpclient:
         wiretap: true
+
+
+logging:
+  level:
+    root: info
+  file:
+    name: log/demo.log
+
+
+impl: i1
 

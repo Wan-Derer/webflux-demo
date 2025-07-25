@@ -1,12 +1,15 @@
 package com.example.webfluxdemo.service;
 
-import com.example.webfluxdemo.Model.Item;
+import com.example.webfluxdemo.model.Item;
+import com.example.webfluxdemo.config.Iface;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
 
 @Service
+//@RequiredArgsConstructor
 public class MainService {
 
   List<String> strings = List.of("First", "Second", "Third", "Fourth");
