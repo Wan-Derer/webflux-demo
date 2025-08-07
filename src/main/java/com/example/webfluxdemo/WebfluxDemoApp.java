@@ -42,39 +42,39 @@ public class WebfluxDemoApp {
 //    };
 //  }
 
-  @Bean
-  public CommandLineRunner runner() {
-    return args -> {
-      TextEncryptor textEncryptor = hexEncodingTextEncryptor();
-
-      String inputData = "helloHELLO!";
-      String encryptedData = textEncryptor.encrypt(inputData);
-      String decryptedData = textEncryptor.decrypt(encryptedData);
-
-      System.out.println("========================");
-      System.out.println("Input data: " + inputData);
-      System.out.println("Encrypted data: " + encryptedData);
-      System.out.println("Decrypted data: " + decryptedData);
-      System.out.println("========================");
-
-    };
-  }
-
-  @Bean
-  public BytesEncryptor aesBytesEncryptor() {
-    String password = "hackme"; // should be kept in a secure place and not be shared
-    String salt = "8560b4f4b3"; // should be hex-encoded with even number of chars
-    return Encryptors.standard(password, salt);
-  }
-
-  @Bean
-  public TextEncryptor hexEncodingTextEncryptor() {
-    String password = "hackme"; // should be kept in a secure place and not be shared
+//  @Bean
+//  public CommandLineRunner runner() {
+//    return args -> {
+//      TextEncryptor textEncryptor = hexEncodingTextEncryptor();
+//
+//      String inputData = "helloHELLO!";
+//      String encryptedData = textEncryptor.encrypt(inputData);
+//      String decryptedData = textEncryptor.decrypt(encryptedData);
+//
+//      System.out.println("========================");
+//      System.out.println("Input data: " + inputData);
+//      System.out.println("Encrypted data: " + encryptedData);
+//      System.out.println("Decrypted data: " + decryptedData);
+//      System.out.println("========================");
+//
+//    };
+//  }
+//
+//  @Bean
+//  public BytesEncryptor aesBytesEncryptor() {
+//    String password = "hackme"; // should be kept in a secure place and not be shared
 //    String salt = "8560b4f4b3"; // should be hex-encoded with even number of chars
-    String salt = KeyGenerators.string().generateKey();
-    System.out.println(">>>>>>>>> " + salt);
-    return Encryptors.text(password, salt);
-  }
+//    return Encryptors.standard(password, salt);
+//  }
+//
+//  @Bean
+//  public TextEncryptor hexEncodingTextEncryptor() {
+//    String password = "hackme"; // should be kept in a secure place and not be shared
+////    String salt = "8560b4f4b3"; // should be hex-encoded with even number of chars
+//    String salt = KeyGenerators.string().generateKey();
+//    System.out.println(">>>>>>>>> " + salt);
+//    return Encryptors.text(password, salt);
+//  }
 
 
 

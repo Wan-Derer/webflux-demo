@@ -5,14 +5,6 @@
     </encoder>
   </appender>
 
-  <logger name="reactor.netty.http.server.AccessLog" level="DEBUG">
-    <appender-ref ref="STDOUT"/>
-  </logger>
-
-  <logger name="reactor.netty.http.server.HttpServer" level="DEBUG">
-    <appender-ref ref="STDOUT"/>
-  </logger>
-
 <!--  <root level="DEBUG">-->
       <root level="INFO">
     <appender-ref ref="STDOUT" />

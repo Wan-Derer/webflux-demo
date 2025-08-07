@@ -1,42 +1,43 @@
+server:
+  port: 8090
 
-
-#logging:
-#  level:
-#    web: DEBUG
-
-
-#debug: true
-#trace: true
-#
-#
-
-
-# https://qna.habr.com/q/1282030
 
 spring:
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/webflux_demo
-    username: postgres
-    password: postgres
-  liquibase:
-    change-log: db/changelog/db.changelog-master.yml
-    url: jdbc:postgresql://localhost:5432/webflux_demo
-    user: postgres
-    password: postgres
-  cloud:
-    gateway:
-      httpserver:
-        wiretap: true
-      httpclient:
-        wiretap: true
+    url: r2dbc:h2:file://../../h2db/testdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
 
+  #    url: r2dbc:postgresql://localhost:5432/webflux_demo
+  #    username: postgres
+  #    password: postgres
+
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:file://../../h2db/testdb
+#    username: sa
+#    password: ""
+
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
+#      settings:
+#        web-allow-others: true
 
 logging:
   level:
     root: info
+    web: info
+#    reactor:
+#      netty:
+#        http:
+#          server: debug
+#          client: debug
+#    org.springframework.r2dbc: debug
+#    io.r2dbc: debug
   file:
     name: log/demo.log
 
 
 impl: i1
-
