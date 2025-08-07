@@ -5,11 +5,7 @@ import org.springframework.boot.web.embedded.netty.NettyServerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.netty.http.server.ConnectionInformation;
-import reactor.netty.http.server.HttpServerRequest;
-import reactor.netty.http.server.HttpServerResponse;
 import reactor.netty.http.server.logging.AccessLog;
-import reactor.netty.http.server.logging.AccessLogArgProvider;
-import reactor.netty.http.server.logging.AccessLogFactory;
 
 @Configuration
 public class ConfigWeb {
