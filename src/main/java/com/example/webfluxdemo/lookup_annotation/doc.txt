@@ -1,0 +1,105 @@
+В Spring аннотация @Lookup используется для внедрения прототипных (scope="prototype") бинов в одиночные (scope="singleton") бины.
+
+Это решает классическую проблему, когда singleton-бин инжектит prototype-бин один раз при своем создании, и потом не может получать новые экземпляры этого prototype-бина при каждом вызове метода.
+
+Как это работает?
+Spring создает подкласс вашего singleton-бина и переопределяет метод, помеченный @Lookup. Внутри этого переопределенного метода Spring обращается к своему контексту, чтобы получить новый экземпляр prototype-бина.
+
+Простой пример
+Допустим, у нас есть:
+
+Prototype-бин (новый экземпляр при каждом запросе):
+
+java
+@Component
+@Scope("prototype")
+public class PrototypeBean {
+    public String getMessage() {
+        return "Я новый экземпляр! Мой хэш: " + this.hashCode();
+    }
+}
+Singleton-бин, который хочет каждый раз получать новый PrototypeBean:
+
+Без @Lookup была бы проблема. С @Lookup:
+
+java
+@Component
+public class SingletonBean {
+
+    // Объявляем метод (может быть абстрактным!), который будет переопределен Spring'ом
+    @Lookup
+    public PrototypeBean getPrototypeBean() {
+        // Эта реализация никогда не выполняется.
+        // Spring предоставляет свою реализацию.
+        return null;
+    }
+
+    public void doSomething() {
+        // При каждом вызове этого метода мы получим НОВЫЙ PrototypeBean
+        PrototypeBean prototypeBean = getPrototypeBean();
+        System.out.println(prototypeBean.getMessage());
+    }
+}
+Что происходит при запуске?
+Spring видит @Lookup в SingletonBean.
+
+Он создает CGLIB-прокси (подкласс) для SingletonBean.
+
+В этом подклассе он переопределяет метод getPrototypeBean(), чтобы тот при каждом вызове делал applicationContext.getBean(PrototypeBean.class).
+
+Когда вы вызываете singletonBean.doSomething(), работает этот прокси-объект, и вызов getPrototypeBean() возвращает новый бин.
+
+Варианты использования @Lookup
+Конкретный тип (как в примере выше): Spring ищет бин по типу возвращаемого значения.
+
+java
+@Lookup
+public PrototypeBean getPrototypeBean() {
+    return null;
+}
+По имени бина: Если нужно получить бин по имени, его можно передать в аннотацию.
+
+java
+@Lookup("mySpecialPrototypeBean")
+public MyInterface getPrototypeBean() { // Возвращаем тип интерфейса
+    return null;
+}
+Плюсы и Минусы
+Плюсы:
+
+Решает проблему "singleton с зависимостью prototype".
+
+Чистота кода: логика получения бина отделена от бизнес-логики.
+
+Минусы:
+
+Магия Spring: Метод становится абстрактным по смыслу, его реальная реализация не используется.
+
+Зависимость от фреймворка: Код тесно связан со Spring.
+
+Требует CGLIB: Класс не должен быть final, метод тоже не должен быть final.
+
+Альтернативы
+ObjectProvider (рекомендуемый способ в современных версиях Spring):
+
+java
+@Component
+public class SingletonBean {
+
+    @Autowired
+    private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+
+    public void doSomething() {
+        // Получаем новый экземпляр PrototypeBean
+        PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+        System.out.println(prototypeBean.getMessage());
+    }
+}
+Этот способ считается более явным и не требует создания подклассов (CGLIB).
+
+Внедрение контекста (ApplicationContext):
+Не рекомендуется, так как нарушает принцип инверсии управления, но технически возможно.
+
+Итог
+@Lookup — это аннотация Spring для решения узкой задачи: получения нового экземпляра prototype-бина внутри singleton-бина. Хотя она работоспособна, в современном Spring часто предпочитают использовать ObjectProvider как более гибкую и явную альтернативу.
+
