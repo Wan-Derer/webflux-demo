@@ -1,5 +1,6 @@
 package com.example.webfluxdemo.custom_annotations;
 
+@Version(value = "1.0")
 public class TestClass {
 
   @Description(author = "John Doe", description = "Testing method")
