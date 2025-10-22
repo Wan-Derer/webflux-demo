@@ -5,9 +5,7 @@ https://youtu.be/g4kQ3ELo49Y
 
 package com.example.webfluxdemo;
 
-import com.example.webfluxdemo.lookup_annotation.FromContext;
-import com.example.webfluxdemo.lookup_annotation.PrototypeDemo;
-import com.example.webfluxdemo.lookup_annotation.SingletonDemo2;
+import com.example.webfluxdemo.messenger.MessengerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,24 +21,10 @@ public class WebfluxDemoApp {
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(WebfluxDemoApp.class, args);
 
-    FromContext fc = context.getBean(FromContext.class);
-    fc.getBeanFromContext();
-    fc.getBeanFromContext();
-    fc.getBeanFromContext();
 
-//    SingletonDemo2 sd = context.getBean(SingletonDemo2.class);
-//    sd.getProto();
-//    sd.getProto();
-//
-//    PrototypeDemo pd1 = context.getBean(PrototypeDemo.class);
-//    pd1.whyAmI();
-//    PrototypeDemo pd2 = context.getBean(PrototypeDemo.class);
-//    pd2.whyAmI();
-
-
-//    MessengerService service = context.getBean(MessengerService.class);
-//    System.out.println("<<<<<<<<< " + service.getClass().getSimpleName());
-//    service.sendAll();
+    MessengerService service = context.getBean(MessengerService.class);
+    System.out.println("<<<<<<<<< " + service.getClass().getSimpleName());
+    service.sendAll();
   }
 
 
